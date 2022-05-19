@@ -14,7 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest; import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // 여기서부터 코딩 시작~~
-        final String[] sensors={"sensors","mq2"}; ArrayAdapter<String> spinnerAdapter=
+        final String[] sensors={"sensors_","mq2"}; ArrayAdapter<String> spinnerAdapter=
                 new ArrayAdapter<String>(MainActivity.this,
                         android.R.layout.simple_spinner_dropdown_item, sensors);
         // Alt+Enter
@@ -63,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 };
-            StringRequest sensor =new Sensors(sensors[i], listener);
-            sensor.setShouldCache(false);
-            RequestQueue requestQueue_sensor = Volley.newRequestQueue(MainActivity.this);
-            requestQueue_sensor.add(sensor);
+            StringRequest sensors_ =new Sensors_(sensors[i], listener);
+            sensors_.setShouldCache(false);
+            RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+            requestQueue.add(sensors_);
 
         }
         @Override
@@ -127,16 +128,16 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject obj=new JSONObject(response); Toast.makeText(getApplicationContext(),
-                        "Fan이 켜짐:"+obj.get("fan"), Toast.LENGTH_SHORT).show();
+                        "Fan이 켜짐:"+obj.get("led"), Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
         };
-        StringRequest fan=new FANSensor("on", listener);
-        fan.setShouldCache(false);
+        StringRequest led=new FANSensor("on", listener);
+        led.setShouldCache(false);
         RequestQueue requestQueue_fan = Volley.newRequestQueue(MainActivity.this);
-        requestQueue_fan.add(fan);
+        requestQueue_fan.add(led);
     }
 // FAN OFF 버튼 클릭시 동작되는 부분
     public void clickFanOffButton(View view) {
@@ -147,15 +148,15 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject obj=new JSONObject(response);
                     Toast.makeText(getApplicationContext(),
-                "Fan이 꺼짐:"+obj.get("fan"), Toast.LENGTH_SHORT).show();
+                "Fan이 꺼짐:"+obj.get("led"), Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
         };
-        StringRequest fan=new FANSensor("off", listener);
-        fan.setShouldCache(false);
+        StringRequest led=new FANSensor("off", listener);
+        led.setShouldCache(false);
         RequestQueue requestQueue_fan = Volley.newRequestQueue(MainActivity.this);
-        requestQueue_fan.add(fan);
+        requestQueue_fan.add(led);
     }
 }
